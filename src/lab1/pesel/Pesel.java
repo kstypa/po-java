@@ -1,7 +1,5 @@
 package lab1.pesel;
 
-import java.util.Vector;
-
 public class Pesel {
     private String _pesel;
 
