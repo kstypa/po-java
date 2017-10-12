@@ -13,4 +13,15 @@ public class JIn {
         }catch(IOException e){e.printStackTrace();}
         return text;
     }
+
+    public static int getInt() {
+        int x = 0;
+        try{
+            InputStreamReader rd = new InputStreamReader(System.in);
+            BufferedReader bfr = new BufferedReader(rd);
+
+            x = Integer.parseInt(bfr.readLine());
+        }catch(IOException e){e.printStackTrace();}
+        return x;
+    }
 }
