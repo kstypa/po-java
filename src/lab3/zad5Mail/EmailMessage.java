@@ -89,17 +89,15 @@ public class EmailMessage {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "587");
+        props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", "465");
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
         });
-//        Session session = Session.getInstance(props, null);
-        session.setDebug(true);
 
         try {
             Message message = new MimeMessage(session);
@@ -109,8 +107,7 @@ public class EmailMessage {
             message.setSubject(subject);
             message.setText(content);
 
-//            Transport.send(message, username, password);
-            Transport transport = session.getTransport("smtp");
+            Transport transport = session.getTransport("smtps");
             transport.connect("smtp.gmail.com", username, password);
             System.out.println("Transport: "+transport.toString());
             transport.sendMessage(message, message.getAllRecipients());
