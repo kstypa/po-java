@@ -26,12 +26,9 @@ public class ImageRecognition {
         }
     }
 
-    public static String single() throws IndicoException, IOException {
+    public static String single(String path) throws IndicoException, IOException {
         // single example
-
-        IndicoResult single = indico.imageRecognition.predict(
-                "/home/karol/java/foto/kot.jpg"
-        );
+        IndicoResult single = indico.imageRecognition.predict(path);
         Map<String, Double> result = single.getImageRecognition();
         return getMax(result);
     }
@@ -47,23 +44,27 @@ public class ImageRecognition {
         }
         return maxname;
     }
-//    System.out.println(result);
 
-    public String[] listFilesForFolder(final File folder) {
-        Vector<String> filesVector = new Vector<>();
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry);
-            } else {
-                filesVector.add(fileEntry.getName());
+    public static void listFilesForDirectory(final File dir, Vector<String> filesVector) {
+        if(dir.isDirectory()) {
+            for (final File fileEntry : dir.listFiles()) {
+                listFilesForDirectory(fileEntry, filesVector);
             }
         }
+        else if(dir.isFile())
+            filesVector.add(dir.getAbsolutePath());
+    }
+
+    public static String[] fileListArray(final File dir) {
+        Vector<String> filesVector = new Vector<>();
+        listFilesForDirectory(dir, filesVector);
         return filesVector.toArray(new String[filesVector.size()]);
     }
 
     // batch example
-    public static List<String> batch(String[] dir) throws IndicoException, IOException {
-        BatchIndicoResult multiple = indico.imageRecognition.predict(dir);
+    public static List<String> batch(final File dir) throws IndicoException, IOException {
+        String[] dirArray = fileListArray(dir);
+        BatchIndicoResult multiple = indico.imageRecognition.predict(dirArray);
         List<Map<String, Double>> results = multiple.getImageRecognition();
         List<String> folders = new LinkedList<>();
         for(Map<String, Double> m : results) {
@@ -71,8 +72,4 @@ public class ImageRecognition {
         }
         return folders;
     }
-
-
-
-//    System.out.println(results);
 }
