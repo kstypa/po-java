@@ -59,7 +59,7 @@ public class LoginClient {
         String serverResponse;
         int trueDistance;
         int counter = 1;
-        BufferedReader fileReader = new BufferedReader(new FileReader("C:\\Users\\Karol\\Desktop\\git\\po-java\\src\\lab9\\zad1LoginServer\\polish-dic.txt"));
+        BufferedReader fileReader = new BufferedReader(new FileReader("/home/karol/java/po-java/src/lab9/zad1LoginServer/polish-dic.txt"));
         password = fileReader.readLine();
         while (true) {
             out.println(password);
